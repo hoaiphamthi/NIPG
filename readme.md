@@ -27,5 +27,5 @@ To run the experiments, execute the corresponding main file (main_CUR.py or main
 
 ### Experimental details
 The detailed sizes and datasets for each problem evaluated in the scripts are provided here:
-- CUR Problem (Real Datasets): 1. Colon Tumor (62x2000), 2. Heart Disease (303x14), 3. CNS (60x7129), 4. Lung Cancer-Michigan (96x7129), 5. Secom (1567x590), and 6. Cina0 (16033x132).
+- CUR Problem (Real Datasets): 1. Colon Tumor (62x2000), 2. Heart Disease (303x14), 3. CNS (60x7129), 4. Lung Cancer-Michigan (96x7129), 5. Secom (1567x590), and 6. Cina0 (16033x132).These real data files are located in the "CSV" folder.
 - IQP Problem (Generated Matrices): Low-rank (2000x100, 3000x150), Nearly square (500x500), and More columns than rows (100x1000, 250x2500). The random seed is dynamically generated based on matrix dimensions to guarantee consistency.
