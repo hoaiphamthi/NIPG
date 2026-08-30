@@ -1,5 +1,5 @@
 This document provides instructions for the code accompanying the paper 
-"New inexact adaptive proximal gradient algorithms for nonconvex composite optimization problems and applications" by Pham Thi Hoai, Nguyen Dang Hao and Jen-Chih Yao.
+"New inexact adaptive proximal gradient algorithms for nonconvex composite optimization problems" by Pham Thi Hoai, Nguyen Dang Hao and Jen-Chih Yao.
 
 ### Introduction
 - The project is modularized into several Python files, separating objective functions (fun_gradobjec.py), proximal operators (prox_operators.py), algorithms (algos_cur.py, algos_iqp.py), and main execution scripts.
