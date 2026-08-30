@@ -112,7 +112,7 @@ print("-" *  109)
 print(f"| {'Problem':<20} | {'Lips':>10} | {'Method':<13} | {'F(X^k)':>10} | {'Out-IT':>7} | {'In-IT':>7} | {'ELS-IT':>7} | {'Time (s)':>10} |")
 print("-" *  109)
 
-for i in range(1, 7, 1):
+for i in range(1, 2, 1):
     if i == 1:
         W = np.loadtxt('CSV/ColonTumor_62x2000.txt', delimiter=',')
         name = 'Colon Tumor'
@@ -190,7 +190,7 @@ for i in range(1, 7, 1):
     end_INPGl_opt1 = time.time()
     core_time_inpgl_opt1 = time_inpgl_opt1[-1]
 
-    print(f"| {' ':<20} | {' ':>10} | {'NIPG1 (A1)':<13} | {fun_F_CUR(W, X_inpgl_opt1, lambda_row, lambda_col, mu):>10.4f} | {k_inpgl_opt1:>7} | {i_inpgl_opt1:>7} | {'-':>7} | {core_time_inpgl_opt1:>10.2f} |")
+    print(f"| {' ':<20} | {' ':>10} | {'NIPG1':<13} | {fun_F_CUR(W, X_inpgl_opt1, lambda_row, lambda_col, mu):>10.4f} | {k_inpgl_opt1:>7} | {i_inpgl_opt1:>7} | {'-':>7} | {core_time_inpgl_opt1:>10.2f} |")
     
     c0 = 0.5
     c1 = 0.49
@@ -212,14 +212,14 @@ for i in range(1, 7, 1):
     end_INPGl_opt2 = time.time()
     core_time_inpgl_opt2 = time_inpgl_opt2[-1]
 
-    print(f"| {' ':<20} | {' ':>10} | {'NIPG2 (A2)':<13} | {fun_F_CUR(W, X_inpgl_opt2, lambda_row, lambda_col, mu):>10.4f} | {k_inpgl_opt2:>7} | {i_inpgl_opt2:>7} | {'-':>7} | {core_time_inpgl_opt2:>10.2f} |")
+    print(f"| {' ':<20} | {' ':>10} | {'NIPG2':<13} | {fun_F_CUR(W, X_inpgl_opt2, lambda_row, lambda_col, mu):>10.4f} | {k_inpgl_opt2:>7} | {i_inpgl_opt2:>7} | {'-':>7} | {core_time_inpgl_opt2:>10.2f} |")
     print("-" *  109)
     csv_rows = [
         [name, f"{Lips:.4f}", "IPG-ELS", f"{fun_F_CUR(W, X2, lambda_row, lambda_col, mu):.4f}", k2, i2, ItLiSear2, f"{core_time_FBinex2:.2f}"],
         ["", "", "PG-ELS", f"{fun_F_CUR(W, XFB, lambda_row, lambda_col, mu):.4f}", kFB, iFB, ItLiSearFB, f"{core_time_FBLS:.2f}"],
         ["", "", "IPG-FixStep", f"{fun_F_CUR(W, Xinex, lambda_row, lambda_col, mu):.4f}", kinex, iinex, "-", f"{core_time_FBinex:.2f}"],
-        ["", "", "NIPG1 (A1)", f"{fun_F_CUR(W, X_inpgl_opt1, lambda_row, lambda_col, mu):.4f}", k_inpgl_opt1, i_inpgl_opt1, "-", f"{core_time_inpgl_opt1:.2f}"],
-        ["", "", "NIPG2 (A2)", f"{fun_F_CUR(W, X_inpgl_opt2, lambda_row, lambda_col, mu):.4f}", k_inpgl_opt2, i_inpgl_opt2, "-", f"{core_time_inpgl_opt2:.2f}"]
+        ["", "", "NIPG1", f"{fun_F_CUR(W, X_inpgl_opt1, lambda_row, lambda_col, mu):.4f}", k_inpgl_opt1, i_inpgl_opt1, "-", f"{core_time_inpgl_opt1:.2f}"],
+        ["", "", "NIPG2", f"{fun_F_CUR(W, X_inpgl_opt2, lambda_row, lambda_col, mu):.4f}", k_inpgl_opt2, i_inpgl_opt2, "-", f"{core_time_inpgl_opt2:.2f}"]
     ]
     
     with open(csv_filename, mode='a', newline='', encoding='utf-8') as f:

@@ -105,8 +105,8 @@ def generate_indefinite_problem(n, m, neg_ratio=0.15,L_max=80, seed=42):
     return A, B, Lips
     
 dimensions = [
-    (3000, 150),
-    (500, 500),
+    #(3000, 150),
+    #(500, 500),
     (250, 2500),
 ]
 
@@ -122,7 +122,11 @@ print(f'| {"Problem":<15} | {"Lips":>8} | {"Method":<12} | {"F(X^k)":>10} | {"Ou
 print(divider)
 
 all_results_table = []
-lipschitz_values = [10, 30, 50, 80]
+lipschitz_values = [
+   # 10, 
+    #30, 
+   # 50, 
+    80]
 
 for i, (n, m) in enumerate(active_dimensions):
     for L_target in lipschitz_values: 
@@ -188,8 +192,8 @@ for i, (n, m) in enumerate(active_dimensions):
         time_nipg1 = end_INPGl_opt1 - start_INPGl_opt1
         f_nipg1_val = fun_F_IQP(A, B, X_inpgl_opt1, lambda_row, lambda_col, mu)
     
-        print(f'| {"":<15} | {"":>8} | {"NIPG1 (A1)":<12} | {f_nipg1_val:>10.4f} | {k_inpgl_opt1:>7} | {i_inpgl_opt1:>7} | {"-":>7} | {time_nipg1:>8.2f} |')
-        all_results_table.append({'Problem': name, 'Dims': f'{n}x{m}', 'Lips': Lips, 'Method': 'NIPG1 (A1)', 'F(X^k)': f_nipg1_val, 'Out-IT': k_inpgl_opt1, 'In-IT': i_inpgl_opt1, 'ELS-IT': '-', 'Time(s)': time_nipg1})
+        print(f'| {"":<15} | {"":>8} | {"NIPG1":<12} | {f_nipg1_val:>10.4f} | {k_inpgl_opt1:>7} | {i_inpgl_opt1:>7} | {"-":>7} | {time_nipg1:>8.2f} |')
+        all_results_table.append({'Problem': name, 'Dims': f'{n}x{m}', 'Lips': Lips, 'Method': 'NIPG1', 'F(X^k)': f_nipg1_val, 'Out-IT': k_inpgl_opt1, 'In-IT': i_inpgl_opt1, 'ELS-IT': '-', 'Time(s)': time_nipg1})
 
         start_INPGl_opt2 = time.time()
         [X_inpgl_opt2, f_inpgl_opt2, k_inpgl_opt2, i_inpgl_opt2, F_func_inpgl_opt2, time_inpgl_opt2, X_func_inpgl_opt2, step_sizes_inpgl_opt2] = NIPGl(
@@ -201,16 +205,16 @@ for i, (n, m) in enumerate(active_dimensions):
         time_nipg2 = end_INPGl_opt2 - start_INPGl_opt2
         f_nipg2_val = fun_F_IQP(A, B, X_inpgl_opt2, lambda_row, lambda_col, mu)
     
-        print(f'| {"":<15} | {"":>8} | {"NIPG2 (A2)":<12} | {f_nipg2_val:>10.4f} | {k_inpgl_opt2:>7} | {i_inpgl_opt2:>7} | {"-":>7} | {time_nipg2:>8.2f} |')
+        print(f'| {"":<15} | {"":>8} | {"NIPG2":<12} | {f_nipg2_val:>10.4f} | {k_inpgl_opt2:>7} | {i_inpgl_opt2:>7} | {"-":>7} | {time_nipg2:>8.2f} |')
         print(divider)
-        all_results_table.append({'Problem': name, 'Dims': f'{n}x{m}', 'Lips': Lips, 'Method': 'NIPG2 (A2)', 'F(X^k)': f_nipg2_val, 'Out-IT': k_inpgl_opt2, 'In-IT': i_inpgl_opt2, 'ELS-IT': '-', 'Time(s)': time_nipg2})
+        all_results_table.append({'Problem': name, 'Dims': f'{n}x{m}', 'Lips': Lips, 'Method': 'NIPG2', 'F(X^k)': f_nipg2_val, 'Out-IT': k_inpgl_opt2, 'In-IT': i_inpgl_opt2, 'ELS-IT': '-', 'Time(s)': time_nipg2})
     
         results_to_plot = [
             (F_func2, X_func_c2, time_IT_LS2, None, 'IPG-ELS', 'blue'),
             (F_funcFB, X_func_FB, time_IT_FB, None, 'PG-ELS', 'yellow'),
             (F_funcinex, X_func_FBinex, time_IT_FBinex, None, 'IPG-FixStep', 'black'),
-            (F_func_inpgl_opt2, X_func_inpgl_opt2, time_inpgl_opt2, step_sizes_inpgl_opt2, 'NIPG2 (A2)', 'red'), 
-            (F_func_inpgl_opt1, X_func_inpgl_opt1, time_inpgl_opt1, step_sizes_inpgl_opt1, 'NIPG1 (A1)', 'purple'),
+            (F_func_inpgl_opt2, X_func_inpgl_opt2, time_inpgl_opt2, step_sizes_inpgl_opt2, 'NIPG2', 'red'), 
+            (F_func_inpgl_opt1, X_func_inpgl_opt1, time_inpgl_opt1, step_sizes_inpgl_opt1, 'NIPG1', 'purple'),
         ]
  
         print(f'[*] Generating and Saving Plots for {name}...')

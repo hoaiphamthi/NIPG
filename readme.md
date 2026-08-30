@@ -26,20 +26,6 @@ To run the experiments, execute the corresponding main file (main_CUR.py or main
 - The result/CUR/csv_results and result/IQP/csv_results folders contain the summary CSV tables of all the experiments.
 
 ### Experimental details
-The detailed sizes, datasets, and their corresponding sources evaluated in the scripts are provided here. All real-world data files are stored in the "CSV" directory located at the root of the project.
-
-- CUR Problem (Real Datasets): 
-  These benchmark datasets are loaded directly from the local "CSV" folder. The original data were obtained from the following two repositories:
-  * Source 1: https://leo.ugr.es/elvira/DBCRepository/
-  * Source 2: https://www.causality.inf.ethz.ch/data/CINA.html
-  
-  The evaluated datasets include:
-  1. Colon Tumor (62x2000)
-  2. Heart Disease (303x14)
-  3. CNS (60x7129)
-  4. Lung Cancer-Michigan (96x7129)
-  5. Secom (1567x590)
-  6. Cina0 (16033x132)
-
-- IQP Problem (Generated Matrices): 
-  Low-rank (2000x100, 3000x150), Nearly square (500x500), and More columns than rows (100x1000, 250x2500). The random seed is dynamically generated based on matrix dimensions to guarantee consistency.
+The detailed sizes and datasets for each problem evaluated in the scripts are provided here:
+- CUR Problem (Real Datasets): 1. Colon Tumor (62x2000), 2. Heart Disease (303x14), 3. CNS (60x7129), 4. Lung Cancer-Michigan (96x7129), 5. Secom (1567x590), and 6. Cina0 (16033x132).
+- IQP Problem (Generated Matrices): Low-rank (2000x100, 3000x150), Nearly square (500x500), and More columns than rows (100x1000, 250x2500). The random seed is dynamically generated based on matrix dimensions to guarantee consistency.

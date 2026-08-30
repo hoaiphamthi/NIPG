@@ -5,7 +5,7 @@ from Prox_operators import ProxExact, ProxInexFixStep, ProxInexIPG_LS, ProxInexN
 
 
 # =============================================================================
-#HELPER FUNCTIONS
+# HELPER FUNCTIONS
 # =============================================================================
 
 def get_gamma_err(k):
@@ -28,13 +28,18 @@ def LSExplicit_CUR(X, Y, f_X, prev, beta_init, W, theta):
 
 
 # =============================================================================
-#Main algorithms
+# Main algorithms
 # =============================================================================
 
 def IPG_ELS(W, X0, f_X, gradf_X, gamma_1, gamma_2, theta, tau, alpha, t_k, kmax, prec, lambda_row, lambda_col, FOpt=None, mu=0.01):
     k = 0
     X = X0
-    # Fixed parameter passing for fun_F_CUR
+    
+    # Calculate initial norm for stopping criteria
+    normX0 = np.linalg.norm(X0, ord=np.inf)
+    if normX0 == 0: 
+        normX0 = 1.0
+        
     F_func = [fun_F_CUR(W, X, lambda_row, lambda_col, mu)]
     X_func = [np.copy(X0)] 
     i = 0
@@ -52,9 +57,12 @@ def IPG_ELS(W, X0, f_X, gradf_X, gamma_1, gamma_2, theta, tau, alpha, t_k, kmax,
         [Xtilde, iprox, V, eps] = ProxInexIPG_LS(X, gradf_X, gamma_1, gamma_2, tau, alpha, t_k, lambda_row, lambda_col, maxItInner, mu)
         i = i + iprox
         
+        # Early stopping condition
+        if np.linalg.norm(X - Xtilde, ord=np.inf) <= prec * normX0:
+            break
+            
         Y = Xtilde - V
         
-        # Optimized tracing calculation
         prev = -np.sum(gradf_X * (X - Y)) + (tau/2)*(np.linalg.norm(X - Xtilde))**2 + (gamma_1/2)*np.linalg.norm(V)**2 + gamma_2*eps
         
         [beta, ItLi, fun_Xplus, Xplus] = LSExplicit_CUR(X, Y, f_X, prev, 1, W, theta)
@@ -77,6 +85,11 @@ def IPG_ELS(W, X0, f_X, gradf_X, gamma_1, gamma_2, theta, tau, alpha, t_k, kmax,
 def IPG_Fixstep(W, X0, f_X, gradf_X, sigma, t_k, gamma, kmax, prec, lambda_row, lambda_col, FOpt, mu=0.01):
     k = 0
     X = X0
+    
+    normX0 = np.linalg.norm(X0, ord=np.inf)
+    if normX0 == 0: 
+        normX0 = 1.0
+        
     F_func = [fun_F_CUR(W, X, lambda_row, lambda_col, mu)]
     X_func = [np.copy(X0)] 
     i = 0
@@ -89,6 +102,10 @@ def IPG_Fixstep(W, X0, f_X, gradf_X, sigma, t_k, gamma, kmax, prec, lambda_row, 
         
         [Xtilde, iprox, V, eps] = ProxInexFixStep(X, gradf_X, sigma, t_k, lambda_row, lambda_col, maxItInner, mu)
         i = i + iprox
+
+        # Early stopping condition
+        if np.linalg.norm(X - Xtilde, ord=np.inf) <= prec * normX0:
+            break
 
         if FOpt is not None and F_func[-1] <= FOpt:
             break
@@ -110,12 +127,16 @@ def IPG_Fixstep(W, X0, f_X, gradf_X, sigma, t_k, gamma, kmax, prec, lambda_row, 
 def NIPGl(
     W, X0, f_X_initial, gradf_X_initial, lambda_row, lambda_col,
     kmax, c0, c1, theta_1, theta_2, tau, 
-    initial_step_size, option=1, maxItInner=100, FOpt=None, mu=0.01
+    initial_step_size, option=1, maxItInner=100, FOpt=None, mu=0.01, prec=1.0e-3
 ):
     k = 0
     X = np.copy(X0) 
     f_X = f_X_initial
     gradf_X = np.copy(gradf_X_initial) 
+    
+    normX0 = np.linalg.norm(X0, ord=np.inf)
+    if normX0 == 0: 
+        normX0 = 1.0
 
     t_k = initial_step_size 
     t_prev_prev = initial_step_size 
@@ -140,6 +161,11 @@ def NIPGl(
         [Xtilde, iprox, V, eps] = ProxInexNIPGl(X_k, gradf_X_k, theta_1, theta_2, tau, t_current, lambda_row, lambda_col, maxItInner, mu)
         
         total_inner_iterations += iprox
+        
+        # Early stopping condition
+        if np.linalg.norm(X_k - Xtilde, ord=np.inf) <= prec * normX0:
+            break
+            
         X_new = Xtilde - V  
          
         [f_X_new, gradf_X_new] = fun_grad_f_CUR(W, X_new) 
@@ -203,6 +229,11 @@ def NIPGl(
 def PG_ELS(W, X0, f_X, gradf_X, theta, t_k, kmax, prec, lambda_row, lambda_col, FOpt, mu=0.01):
     k = 0
     X = X0
+    
+    normX0 = np.linalg.norm(X0, ord=np.inf)
+    if normX0 == 0: 
+        normX0 = 1.0
+        
     F_func = [fun_F_CUR(W, X, lambda_row, lambda_col, mu)]
     X_func = [np.copy(X0)] 
     i = 0
@@ -216,13 +247,16 @@ def PG_ELS(W, X0, f_X, gradf_X, theta, t_k, kmax, prec, lambda_row, lambda_col, 
         
         [Xtilde, iprox] = ProxExact(X, gradf_X, t_k, lambda_row, lambda_col, maxItInner, mu)
         i = i + iprox
+        
+        # Early stopping condition
+        if np.linalg.norm(X - Xtilde, ord=np.inf) <= prec * normX0:
+            break
 
         if FOpt is not None and F_func[-1] <= FOpt:
             break
             
         Y = Xtilde
         
-        # Optimized tracing calculation
         prev = -np.sum(gradf_X * (X - Y)) + (1/2)*(np.linalg.norm(X - Xtilde))**2
         
         [beta, ItLi, fun_Xplus, Xplus] = LSExplicit_CUR(X, Y, f_X, prev, 1, W, theta)
