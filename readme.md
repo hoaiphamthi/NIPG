@@ -43,3 +43,4 @@ The detailed sizes, datasets, and their corresponding sources evaluated in the s
 
 - IQP Problem (Generated Matrices): 
   Low-rank (2000x100, 3000x150), Nearly square (500x500), and More columns than rows (250x2500). The random seed is dynamically generated based on matrix dimensions to guarantee consistency.
+  Note: Because these matrices are generated using specific random seeds, please do not alter any data generation parameters (such as dimensions or the seed formula) if you wish to exactly reproduce our reported results.
