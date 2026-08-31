@@ -44,7 +44,7 @@ The detailed sizes, datasets, and their corresponding sources evaluated in the s
 - IQP Problem (Generated Matrices): 
   Low-rank (2000x100, 3000x150), Nearly square (500x500), and More columns than rows (250x2500). The random seed is dynamically generated based on matrix dimensions to guarantee consistency.
   Note: Because these matrices are generated using specific random seeds, please do not alter any data generation parameters (such as dimensions or the seed formula) if you wish to exactly reproduce our reported results.
-  ### Algorithm Parameters
+### Algorithm Parameters
 For the NIPG algorithms, the default parameters are chosen as follows:
 - c0 = 0.5
 - c1 = 0.49
@@ -52,3 +52,4 @@ For the NIPG algorithms, the default parameters are chosen as follows:
 - theta_1 = 1.1
 - theta_2 = 1.0
 - gamma_k = (0.5 * (ln(k+1))^5.7) / (k+1)^1.1
+- The initial step size is set to 0.0001 for the CUR problem and 0.001 for the IQP problem.
